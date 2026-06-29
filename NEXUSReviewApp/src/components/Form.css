@@ -1,0 +1,232 @@
+.review-form {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-form * {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.case-chip {
+  font-family: ui-monospace, 'Cascadia Mono', monospace;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+/* ── Key figures ────────────────────────────────────────────────── */
+.figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .figures {
+    grid-template-columns: 1fr;
+  }
+}
+
+.figure {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.figure-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.figure-value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.score-denom {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+.score-high { color: var(--red); }
+.score-medium { color: var(--amber); }
+.score-low { color: var(--green); }
+
+.score-bar {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.score-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.score-bar-high > span { background: var(--red); }
+.score-bar-medium > span { background: var(--amber); }
+.score-bar-low > span { background: var(--green); }
+
+/* ── Recommendation banner ──────────────────────────────────────── */
+.recommendation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.recommendation-high { border-color: var(--red); }
+.recommendation-medium { border-color: var(--amber); }
+
+.recommendation-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.recommendation-value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ── Content blocks ─────────────────────────────────────────────── */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.block-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.optional {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.block-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+textarea {
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  color: inherit;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 16px;
+  resize: vertical;
+  min-height: 90px;
+}
+
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ── Actions ────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.btn {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: inherit;
+  border-color: var(--border);
+}
+
+.readonly-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}

@@ -1,0 +1,132 @@
+{
+  "version": "2.0",
+  "resources": [
+    {
+      "resource": "EventTrigger",
+      "key": "749744e2-57bb-49dd-b172-a9ad85db55e9_trigger_1",
+      "id": "EventTrigger749744e2-57bb-49dd-b172-a9ad85db55e9_trigger_1",
+      "value": {
+        "ConnectionId": {
+          "defaultValue": "749744e2-57bb-49dd-b172-a9ad85db55e9",
+          "isExpression": false
+        },
+        "EntryPointUniqueId": {
+          "defaultValue": "443a8ee3-fb12-46a5-9ae7-f71628b777f6",
+          "isExpression": false
+        }
+      },
+      "metadata": {
+        "UseConnectionService": "true",
+        "Connector": "uipath-http-webhook",
+        "ActivityName": "ARIA Wire Fraud Webhook",
+        "BindingsVersion": "2.2",
+        "ObjectName": "HTTP_WEBHOOK",
+        "Operation": "GENERIC",
+        "FilterExpression": ""
+      }
+    },
+    {
+      "resource": "Connection",
+      "key": "749744e2-57bb-49dd-b172-a9ad85db55e9",
+      "id": "Connection749744e2-57bb-49dd-b172-a9ad85db55e9",
+      "value": {
+        "ConnectionId": {
+          "defaultValue": "749744e2-57bb-49dd-b172-a9ad85db55e9",
+          "isExpression": false,
+          "displayName": "uipath-http-webhook connection"
+        }
+      },
+      "metadata": {
+        "ActivityName": "ARIA Wire Fraud Webhook",
+        "BindingsVersion": "2.2",
+        "DisplayLabel": "uipath-http-webhook connection",
+        "UseConnectionService": "true",
+        "Connector": "uipath-http-webhook"
+      }
+    },
+    {
+      "resource": "Connection",
+      "key": "be31a8b1-4bd3-4787-b991-2a521aa177cb",
+      "id": "Connectionbe31a8b1-4bd3-4787-b991-2a521aa177cb",
+      "value": {
+        "ConnectionId": {
+          "defaultValue": "be31a8b1-4bd3-4787-b991-2a521aa177cb",
+          "isExpression": false,
+          "displayName": "uipath-http-webhook connection"
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2",
+        "DisplayLabel": "uipath-http-webhook connection",
+        "UseConnectionService": "true",
+        "Connector": "uipath-http-webhook"
+      }
+    },
+    {
+      "resource": "Connection",
+      "key": "0fdb731a-7bd0-473b-896c-405767812035",
+      "id": "Connection0fdb731a-7bd0-473b-896c-405767812035",
+      "value": {
+        "ConnectionId": {
+          "defaultValue": "0fdb731a-7bd0-473b-896c-405767812035",
+          "isExpression": false,
+          "displayName": "uipath-http-webhook connection"
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2",
+        "DisplayLabel": "uipath-http-webhook connection",
+        "UseConnectionService": "true",
+        "Connector": "uipath-http-webhook"
+      }
+    },
+    {
+      "resource": "process",
+      "key": "Agent_WireFraudResolutionSynthesis",
+      "id": "processAgent_WireFraudResolutionSynthesis",
+      "value": {
+        "folderPath": {
+          "defaultValue": "",
+          "isExpression": false,
+          "displayName": "Folder path"
+        },
+        "name": {
+          "defaultValue": "Agent_WireFraudResolutionSynthesis",
+          "isExpression": false,
+          "displayName": "Process name"
+        }
+      },
+      "metadata": {
+        "ActivityName": "Synthesize Resolution",
+        "BindingsVersion": "2.2",
+        "DisplayLabel": "name",
+        "SolutionsSupport": "true",
+        "subType": "Agent"
+      }
+    },
+    {
+      "resource": "process",
+      "key": "Agent_BankingFraudInvestigation",
+      "id": "processAgent_BankingFraudInvestigation",
+      "value": {
+        "folderPath": {
+          "defaultValue": "",
+          "isExpression": false,
+          "displayName": "Folder path"
+        },
+        "name": {
+          "defaultValue": "Agent_BankingFraudInvestigation",
+          "isExpression": false,
+          "displayName": "Process name"
+        }
+      },
+      "metadata": {
+        "ActivityName": "Analyze Fraud Risk",
+        "BindingsVersion": "2.2",
+        "DisplayLabel": "name",
+        "SolutionsSupport": "true",
+        "subType": "Agent"
+      }
+    }
+  ]
+}

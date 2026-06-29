@@ -1,0 +1,33 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "agent.json",
+      "uniqueId": "f551f388-1f1b-4fc0-92bd-7ee719062f41",
+      "type": "Agent",
+      "input": {
+        "type": "object",
+        "properties": {
+          "transactionId": { "type": "string" },
+          "transactionAmount": { "type": "string" },
+          "beneficiaryBank": { "type": "string" },
+          "beneficiaryAccountAgeDays": { "type": "number" },
+          "vendorId": { "type": "string" },
+          "poNumber": { "type": "string" }
+        },
+        "title": "Inputs"
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "fraudScore": { "type": "number" },
+          "fraudClassification": { "type": "string" },
+          "riskFactors": { "type": "string" },
+          "evidenceSummary": { "type": "string" }
+        },
+        "title": "Outputs"
+      }
+    }
+  ]
+}

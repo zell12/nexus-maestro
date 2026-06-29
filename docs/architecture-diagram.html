@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Maestro — Solution Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090e;
+    --bg2: #0c0e16;
+    --surface: rgba(255,255,255,0.03);
+    --surface-hover: rgba(255,255,255,0.05);
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f2f5;
+    --text-secondary: rgba(255,255,255,0.55);
+    --text-muted: rgba(255,255,255,0.35);
+
+    --cyan: #3b9eff;
+    --cyan-soft: rgba(59,158,255,0.1);
+    --cyan-glow: rgba(59,158,255,0.25);
+
+    --amber: #ff9f43;
+    --amber-soft: rgba(255,159,67,0.1);
+    --amber-glow: rgba(255,159,67,0.25);
+
+    --green: #26de81;
+    --green-soft: rgba(38,222,129,0.1);
+    --green-glow: rgba(38,222,129,0.25);
+
+    --coral: #ff6b6b;
+    --coral-soft: rgba(255,107,107,0.08);
+    --coral-glow: rgba(255,107,107,0.2);
+
+    --purple: #a55eea;
+    --purple-soft: rgba(165,94,234,0.1);
+    --purple-glow: rgba(165,94,234,0.25);
+
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%; left: -20%;
+    width: 80%; height: 80%;
+    background: radial-gradient(circle, rgba(59,158,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%; right: -10%;
+    width: 60%; height: 60%;
+    background: radial-gradient(circle, rgba(255,107,107,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .page { max-width: 1480px; margin: 0 auto; padding: 40px 36px; position: relative; }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+  .header-sub strong { color: var(--text); font-weight: 600; }
+  .header-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--coral));
+    margin: 20px auto 0;
+    border-radius: 2px;
+  }
+
+  /* ── Section Labels ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Glass Card ── */
+  .card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  /* Card accent variants */
+  .card.accent-cyan   { border-color: rgba(59,158,255,0.2);  box-shadow: inset 0 0 0 1px rgba(59,158,255,0.05); }
+  .card.accent-amber  { border-color: rgba(255,159,67,0.2);  box-shadow: inset 0 0 0 1px rgba(255,159,67,0.05); }
+  .card.accent-green  { border-color: rgba(38,222,129,0.2);  box-shadow: inset 0 0 0 1px rgba(38,222,129,0.05); }
+  .card.accent-coral  { border-color: rgba(255,107,107,0.15); box-shadow: inset 0 0 0 1px rgba(255,107,107,0.04); }
+  .card.accent-purple { border-color: rgba(165,94,234,0.2);  box-shadow: inset 0 0 0 1px rgba(165,94,234,0.05); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .card-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .icon-cyan   { background: var(--cyan-soft);  color: var(--cyan);  border: 1px solid rgba(59,158,255,0.15); }
+  .icon-amber  { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(255,159,67,0.15); }
+  .icon-green  { background: var(--green-soft); color: var(--green); border: 1px solid rgba(38,222,129,0.15); }
+  .icon-coral  { background: var(--coral-soft); color: var(--coral); border: 1px solid rgba(255,107,107,0.15); }
+  .icon-purple { background: var(--purple-soft);color: var(--purple);border: 1px solid rgba(165,94,234,0.15); }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .card-body {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .card-body strong { color: var(--text); font-weight: 600; }
+
+  /* ── Tag ── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 10px;
+  }
+  .tag-cyan   { background: var(--cyan-soft);  color: var(--cyan);  border: 1px solid rgba(59,158,255,0.15); }
+  .tag-amber  { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(255,159,67,0.15); }
+  .tag-green  { background: var(--green-soft); color: var(--green); border: 1px solid rgba(38,222,129,0.15); }
+  .tag-coral  { background: var(--coral-soft); color: var(--coral); border: 1px solid rgba(255,107,107,0.12); }
+  .tag-purple { background: var(--purple-soft);color: var(--purple);border: 1px solid rgba(165,94,234,0.15); }
+  .tag-muted  { background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border); }
+
+  /* ── Main Grid ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 270px 1fr 290px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── Caller ── */
+  .caller {
+    text-align: center;
+    padding: 24px 18px;
+  }
+  .caller-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan-soft), var(--purple-soft));
+    border: 2px solid rgba(59,158,255,0.25);
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  /* ── Agent Pair ── */
+  .agent-pair { display: flex; gap: 10px; }
+  .agent-pair > .card { flex: 1; }
+
+  /* ── Connector Arrow ── */
+  .connector {
+    text-align: center;
+    padding: 4px 0;
+    color: rgba(59,158,255,0.4);
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  /* ── Thesis ── */
+  .thesis {
+    text-align: center;
+    padding: 16px;
+    border: 1px dashed rgba(59,158,255,0.15);
+    border-radius: var(--radius);
+    margin-top: 6px;
+    background: rgba(59,158,255,0.02);
+  }
+  .thesis-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .thesis-text strong { color: var(--cyan); font-style: normal; }
+
+  /* ── Maestro Case (hero card) ── */
+  .maestro-card {
+    padding: 24px;
+    border-color: rgba(255,107,107,0.15);
+    background: linear-gradient(135deg, rgba(255,107,107,0.03) 0%, var(--glass) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .maestro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--coral), var(--amber), var(--coral));
+    opacity: 0.5;
+  }
+  .maestro-title {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .maestro-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* ── Pipeline ── */
+  .pipeline {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 14px;
+  }
+  .stage {
+    flex: 1;
+    background: rgba(255,159,67,0.06);
+    border: 1px solid rgba(255,159,67,0.12);
+    padding: 12px 6px;
+    text-align: center;
+    position: relative;
+  }
+  .stage:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+  .stage:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .stage-num {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .stage-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--amber);
+    line-height: 1.3;
+  }
+  .stage-arrow {
+    position: absolute;
+    right: -7px; top: 50%;
+    transform: translateY(-50%);
+    width: 12px; height: 12px;
+    background: var(--bg);
+    border: 1px solid rgba(255,159,67,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: var(--amber);
+    z-index: 2;
+  }
+
+  /* ── Exception Stage ── */
+  .exception {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px dashed rgba(255,107,107,0.2);
+    border-radius: var(--radius-sm);
+    background: rgba(255,107,107,0.03);
+  }
+  .exception-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--coral-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .exception-label { font-size: 12px; font-weight: 600; color: var(--coral); }
+  .exception-sub { font-size: 10px; color: var(--text-muted); }
+
+  /* ── 2-Col Grid ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px; }
+
+  /* ── Workflow Items ── */
+  .wf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+  .wf-item {
+    font-size: 10px;
+    font-family: 'Inter', monospace;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+  }
+
+  /* ── Endpoint Items ── */
+  .ep-item {
+    font-size: 9.5px;
+    font-family: 'Inter', monospace;
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .ep-item .method { color: var(--purple); font-weight: 600; }
+
+  /* ── Redis Channels ── */
+  .channel {
+    font-size: 9.5px;
+    font-family: 'Inter', monospace;
+    color: var(--purple);
+    padding: 2px 0;
+    opacity: 0.75;
+  }
+
+  /* ── Topology Preview ── */
+  .topo-preview {
+    margin-top: 10px;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .topo-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .topo-nodes {
+    font-size: 22px;
+    letter-spacing: 6px;
+    margin-bottom: 4px;
+  }
+  .topo-nodes span { transition: opacity 0.3s; }
+  .topo-sub { font-size: 9px; color: var(--text-muted); }
+
+  /* ── Data Flow Section ── */
+  .flow-section {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    transition: border-color 0.3s;
+  }
+  .flow-item:hover { border-color: rgba(255,255,255,0.1); }
+  .flow-item strong { color: var(--text); }
+  .flow-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .fn-cyan   { background: var(--cyan-soft);  color: var(--cyan);  border: 1px solid rgba(59,158,255,0.2); }
+  .fn-amber  { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(255,159,67,0.2); }
+  .fn-green  { background: var(--green-soft); color: var(--green); border: 1px solid rgba(38,222,129,0.2); }
+  .fn-coral  { background: var(--coral-soft); color: var(--coral); border: 1px solid rgba(255,107,107,0.2); }
+  .fn-purple { background: var(--purple-soft);color: var(--purple);border: 1px solid rgba(165,94,234,0.2); }
+
+  /* ── Legend ── */
+  .legend {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .ld-cyan   { background: var(--cyan); }
+  .ld-amber  { background: var(--amber); }
+  .ld-green  { background: var(--green); }
+  .ld-coral  { background: var(--coral); }
+  .ld-purple { background: var(--purple); }
+
+  /* ── Responsive ── */
+  @media (max-width: 1200px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .flow-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-eyebrow">UiPath AgentHack 2026 · Track 1: Maestro Case</div>
+    <h1>Nexus Maestro</h1>
+    <p class="header-sub">Solution Architecture — <strong>1 Case · 5 AI Agents · Seamless Orchestration</strong></p>
+    <div class="header-divider"></div>
+  </div>
+
+  <!-- Main 3-Column Grid -->
+  <div class="main-grid">
+
+    <!-- ━━ LEFT: Voice Layer ━━ -->
+    <div>
+      <div class="section-label">Voice Layer</div>
+
+      <!-- Caller -->
+      <div class="card caller">
+        <div class="caller-avatar">📞</div>
+        <div class="card-title" style="text-align:center;">Caller</div>
+        <div class="card-body" style="text-align:center;">VP Finance, qBotiCare<br>WebRTC · Browser Microphone</div>
+      </div>
+
+      <div class="connector">↕</div>
+
+      <!-- Aria -->
+      <div class="card accent-cyan">
+        <div class="card-header">
+          <div class="card-icon icon-cyan">A</div>
+          <div class="card-title">Qubi-Aria</div>
+        </div>
+        <div class="card-body">Inbound voice agent — takes the fraud report, verifies identity, opens the Maestro case, speaks mid-call updates and final resolution verbatim</div>
+        <span class="tag tag-cyan">Coded · Python · WebRTC</span>
+      </div>
+
+      <!-- Merril + Larry -->
+      <div class="agent-pair">
+        <div class="card accent-cyan">
+          <div class="card-header">
+            <div class="card-icon icon-cyan">M</div>
+            <div class="card-title">Qubi-Merril</div>
+          </div>
+          <div class="card-body">Vendor verification — phones MedCore AR via SIP</div>
+          <span class="tag tag-cyan">SIP Outbound</span>
+        </div>
+        <div class="card accent-cyan">
+          <div class="card-header">
+            <div class="card-icon icon-cyan">L</div>
+            <div class="card-title">Qubi-Larry</div>
+          </div>
+          <div class="card-body">Carrier verification — phones Cardinal Logistics via SIP</div>
+          <span class="tag tag-cyan">SIP Outbound</span>
+        </div>
+      </div>
+
+      <!-- Thesis -->
+      <div class="thesis">
+        <div class="thesis-text">"Voice agents collect and speak.<br><strong>Maestro decides.</strong>"</div>
+      </div>
+    </div>
+
+    <!-- ━━ CENTER: UiPath Platform ━━ -->
+    <div>
+      <div class="section-label">UiPath Platform</div>
+
+      <!-- Maestro Case -->
+      <div class="card maestro-card">
+        <div class="card-header">
+          <div class="card-icon icon-coral">⬡</div>
+          <div>
+            <div class="maestro-title">Maestro Case: WireFraudDispute</div>
+            <div class="maestro-sub">4 sequential stages · 1 interrupting exception · 10-min SLA · Conditional exit guards</div>
+          </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="pipeline">
+          <div class="stage">
+            <div class="stage-num">Stage 1</div>
+            <div class="stage-name">Fraud Intelligence</div>
+            <div class="stage-arrow">→</div>
+          </div>
+          <div class="stage">
+            <div class="stage-num">Stage 2</div>
+            <div class="stage-name">MultiParty Verification</div>
+            <div class="stage-arrow">→</div>
+          </div>
+          <div class="stage">
+            <div class="stage-num">Stage 3</div>
+            <div class="stage-name">Resolution Synthesis</div>
+            <div class="stage-arrow">→</div>
+          </div>
+          <div class="stage">
+            <div class="stage-num">Stage 4</div>
+            <div class="stage-name">Resolution</div>
+          </div>
+        </div>
+
+        <!-- Exception -->
+        <div class="exception">
+          <div class="exception-icon">⚠</div>
+          <div>
+            <div class="exception-label">ManualReview — Exception Stage</div>
+            <div class="exception-sub">Interrupting — triggered by escalation webhook or War Room operator</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Builder -->
+      <div class="two-col">
+        <div class="card accent-amber">
+          <div class="card-header">
+            <div class="card-icon icon-amber">🤖</div>
+            <div class="card-title">Agent Builder</div>
+          </div>
+          <div class="card-body"><strong>Agent_BankingFraudInvestigation</strong><br>Scores BEC risk → fraud_score, classification, evidence summary</div>
+          <span class="tag tag-amber">Low-Code Agent</span>
+        </div>
+        <div class="card accent-amber">
+          <div class="card-header">
+            <div class="card-icon icon-amber">🤖</div>
+            <div class="card-title">Agent Builder</div>
+          </div>
+          <div class="card-body"><strong>Agent_WireFraudResolutionSynthesis</strong><br>Synthesizes evidence → resolution, ariaResponseText, FBI referral flag</div>
+          <span class="tag tag-amber">Low-Code Agent</span>
+        </div>
+      </div>
+
+      <!-- API Workflows -->
+      <div class="card" style="margin-top: 14px;">
+        <div class="card-header">
+          <div class="card-icon icon-coral">⇌</div>
+          <div class="card-title">API Workflows — Maestro ↔ Backend Bridge</div>
+        </div>
+        <div class="wf-grid">
+          <div class="wf-item">Workflow_FraudIntelligenceCallback</div>
+          <div class="wf-item">Workflow_DispatchVerificationOutboundCall</div>
+          <div class="wf-item">Workflow_FetchVerificationResults</div>
+          <div class="wf-item">Workflow_ResolutionCallback</div>
+        </div>
+      </div>
+
+      <!-- Bottom 3-col: Webhooks / Orchestrator / Action Center -->
+      <div class="three-col">
+        <div class="card accent-coral">
+          <div class="card-header">
+            <div class="card-icon icon-coral" style="width:22px;height:22px;font-size:10px;">↯</div>
+            <div class="card-title" style="font-size:11px;">Integration Service</div>
+          </div>
+          <div class="card-body">HTTP Webhooks:<br>• Case trigger<br>• Verifications complete<br>• Manual review interrupt</div>
+        </div>
+        <div class="card accent-coral">
+          <div class="card-header">
+            <div class="card-icon icon-coral" style="width:22px;height:22px;font-size:10px;">📦</div>
+            <div class="card-title" style="font-size:11px;">Orchestrator Assets</div>
+          </div>
+          <div class="card-body">• callback_url<br>• phone_vendor<br>• phone_carrier<br>• SIP trunk config</div>
+        </div>
+        <div class="card accent-green">
+          <div class="card-header">
+            <div class="card-icon icon-green" style="width:22px;height:22px;font-size:10px;">👤</div>
+            <div class="card-title" style="font-size:11px;">Action Center</div>
+          </div>
+          <div class="card-body"><strong>NEXUSReviewApp</strong><br>Coded Action App (React/TS)<br>Confirm Recall / Override</div>
+          <span class="tag tag-green">HITL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ━━ RIGHT: Infrastructure ━━ -->
+    <div>
+      <div class="section-label">Infrastructure</div>
+
+      <!-- FastAPI Backend -->
+      <div class="card accent-purple">
+        <div class="card-header">
+          <div class="card-icon icon-purple">⚡</div>
+          <div class="card-title">FastAPI Backend</div>
+        </div>
+        <div class="card-body">All NEXUS API endpoints + SSE topology stream</div>
+        <span class="tag tag-purple">Google Cloud Run</span>
+        <div style="margin-top: 10px;">
+          <div class="ep-item"><span class="method">POST</span> /api/fraud-intelligence</div>
+          <div class="ep-item"><span class="method">POST</span> /api/dispatch-verification</div>
+          <div class="ep-item"><span class="method">POST</span> /api/verification-result</div>
+          <div class="ep-item"><span class="method">POST</span> /api/case-resolution</div>
+          <div class="ep-item"><span class="method">GET&nbsp;</span> /api/events/topology (SSE)</div>
+        </div>
+      </div>
+
+      <!-- Redis -->
+      <div class="card accent-purple">
+        <div class="card-header">
+          <div class="card-icon icon-purple">⟐</div>
+          <div class="card-title">Upstash Redis</div>
+        </div>
+        <div class="card-body">Async pub/sub bridge — Maestro ↔ Voice Agents</div>
+        <span class="tag tag-purple">Pub/Sub Bus</span>
+        <div style="margin-top: 8px;">
+          <div class="channel">lrwf:fraud_intelligence:{caseId}</div>
+          <div class="channel">lrwf:vendor_verified:{caseId}</div>
+          <div class="channel">lrwf:logistics_confirmed:{caseId}</div>
+          <div class="channel">lrwf:wire_recall_initiated:{caseId}</div>
+          <div class="channel">nexus:topology:{caseId}</div>
+        </div>
+      </div>
+
+      <!-- War Room -->
+      <div class="card accent-cyan">
+        <div class="card-header">
+          <div class="card-icon icon-cyan">◈</div>
+          <div class="card-title">War Room Dashboard</div>
+        </div>
+        <div class="card-body">Real-time topology graph — live agent states, data flows, stage transitions</div>
+        <span class="tag tag-cyan">React + @xyflow/react</span>
+        <div class="topo-preview">
+          <div class="topo-label">● Live Topology</div>
+          <div class="topo-nodes">
+            <span style="color:var(--cyan)">●</span>
+            <span style="color:var(--text-muted)">―</span>
+            <span style="color:var(--amber)">●</span>
+            <span style="color:var(--text-muted)">―</span>
+            <span style="color:var(--green)">●</span>
+            <span style="color:var(--text-muted)">―</span>
+            <span style="color:var(--coral)">●</span>
+          </div>
+          <div class="topo-sub">SSE stream from backend</div>
+        </div>
+      </div>
+
+      <!-- Coding Agents -->
+      <div class="card" style="border-color: rgba(255,255,255,0.08);">
+        <div class="card-header">
+          <div class="card-icon" style="background:rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-secondary); font-size: 12px;">⌨</div>
+          <div class="card-title" style="font-size: 12px;">Built with Coding Agents</div>
+        </div>
+        <div class="card-body">
+          <strong>Claude Code</strong> via UiPath for Coding Agents<br>
+          • Maestro case plan (uip CLI)<br>
+          • API Workflows (JSON)<br>
+          • Coded Action App (pack/publish)<br>
+          • Voice agents + backend + War Room
+        </div>
+        <span class="tag tag-muted">Bonus Points</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ━━ Data Flow Sequence ━━ -->
+  <div class="flow-section">
+    <div class="section-label">Investigation Flow — ~90 Seconds</div>
+    <div class="flow-grid">
+      <div class="flow-item">
+        <span class="flow-num fn-cyan">1</span>
+        <span>Caller → <strong>Aria</strong> reports $94K suspicious wire</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-cyan">2</span>
+        <span>Aria → <strong>Webhook</strong> opens Maestro case</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-amber">3</span>
+        <span><strong>Agent Builder</strong> scores fraud: 92/100</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-purple">4</span>
+        <span>Score → <strong>Redis</strong> → Aria speaks mid-call</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-coral">5</span>
+        <span>Maestro dispatches <strong>Merril + Larry</strong> in parallel</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-cyan">6</span>
+        <span>SIP dials vendor + carrier on <strong>real phones</strong></span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-purple">7</span>
+        <span>Results → <strong>Redis</strong> → Aria speaks updates</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-amber">8</span>
+        <span><strong>Agent Builder</strong> synthesizes determination</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-coral">9</span>
+        <span>Resolution → Redis → Aria reads <strong>verbatim</strong></span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-num fn-green">10</span>
+        <span>If escalated → <strong>Action Center</strong> HITL review</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ Legend ━━ -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot ld-cyan"></span> Coded Agents (Python)</div>
+    <div class="legend-item"><span class="legend-dot ld-amber"></span> Low-Code Agents (Agent Builder)</div>
+    <div class="legend-item"><span class="legend-dot ld-green"></span> Human-in-the-Loop</div>
+    <div class="legend-item"><span class="legend-dot ld-coral"></span> UiPath Platform</div>
+    <div class="legend-item"><span class="legend-dot ld-purple"></span> Infrastructure</div>
+  </div>
+
+</div>
+
+</body>
+</html>

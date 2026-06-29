@@ -1,0 +1,29 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "content/Workflow.json",
+      "uniqueId": "785d4cae-3382-4e74-aa78-89b1068ea1a6",
+      "type": "Api",
+      "input": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "transactionId": { "type": "string" },
+          "ariaResponseText": { "type": "string" },
+          "resolutionAction": { "type": "string" },
+          "fbiReferralRequired": { "type": "boolean" }
+        },
+        "title": "Inputs"
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "wireRecallInitiated": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  ]
+}

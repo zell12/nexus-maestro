@@ -1,0 +1,129 @@
+{
+  "version": "1.1.0",
+  "settings": {
+    "model": "gpt-4o-2024-11-20",
+    "maxTokens": 16384,
+    "temperature": 0,
+    "engine": "basic-v2",
+    "maxIterations": 25,
+    "mode": "advanced"
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "transactionId": {
+        "type": "string"
+      },
+      "transactionAmount": {
+        "type": "string"
+      },
+      "beneficiaryBank": {
+        "type": "string"
+      },
+      "beneficiaryAccountAgeDays": {
+        "type": "number"
+      },
+      "vendorId": {
+        "type": "string"
+      },
+      "poNumber": {
+        "type": "string"
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "fraudScore": {
+        "type": "number"
+      },
+      "fraudClassification": {
+        "type": "string"
+      },
+      "riskFactors": {
+        "type": "string"
+      },
+      "evidenceSummary": {
+        "type": "string"
+      }
+    }
+  },
+  "metadata": {
+    "storageVersion": "50.0.0",
+    "isConversational": false,
+    "targetRuntime": "pythonAgent",
+    "showProjectCreationExperience": false
+  },
+  "type": "lowCode",
+  "projectId": "f551f388-1f1b-4fc0-92bd-7ee719062f41",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a banking fraud investigation AI for a B2B financial institution.\n  You analyze wire transfer transactions to detect fraud indicators and assign a risk score.\n\n  Scoring guide:\n  - New beneficiary account (< 90 days old): +30 points\n  - Beneficiary bank mismatch with known vendor records: +25 points\n  - Transaction amount above typical vendor threshold: +20 points\n  - PO number format anomaly or missing: +15 points\n  - Multiple risk factors compounding: add 10% bonus\n\n  Classification rules:\n  - Score >= 75: likely vendor_impersonation\n  - Score >= 60, new account: likely account_takeover\n  - Score >= 50, PO anomaly: likely invoice_fraud\n  - Score < 50: low_risk\n\n  Always respond with valid JSON matching the output schema exactly.\n  Provide specific, factual riskFactors based on the transaction data.\n  Keep evidenceSummary under 3 sentences — it will be passed to a resolution agent.",
+      "contentTokens": [
+        {
+          "type": "simpleText",
+          "rawString": "You are a banking fraud investigation AI for a B2B financial institution.\n  You analyze wire transfer transactions to detect fraud indicators and assign a risk score.\n\n  Scoring guide:\n  - New beneficiary account (< 90 days old): +30 points\n  - Beneficiary bank mismatch with known vendor records: +25 points\n  - Transaction amount above typical vendor threshold: +20 points\n  - PO number format anomaly or missing: +15 points\n  - Multiple risk factors compounding: add 10% bonus\n\n  Classification rules:\n  - Score >= 75: likely vendor_impersonation\n  - Score >= 60, new account: likely account_takeover\n  - Score >= 50, PO anomaly: likely invoice_fraud\n  - Score < 50: low_risk\n\n  Always respond with valid JSON matching the output schema exactly.\n  Provide specific, factual riskFactors based on the transaction data.\n  Keep evidenceSummary under 3 sentences — it will be passed to a resolution agent."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Analyze this wire transfer for fraud risk:\n\n  Transaction ID: {{input.transactionId}}\n  Amount: {{input.transactionAmount}}\n  Beneficiary Bank: {{input.beneficiaryBank}}\n  Beneficiary Account Age: {{input.beneficiaryAccountAgeDays}} days\n  Vendor ID: {{input.vendorId}}\n  PO Number: {{input.poNumber}}\n\n  Return JSON with: fraudScore (0-100), fraudClassification, riskFactors, evidenceSummary.",
+      "contentTokens": [
+        {
+          "type": "simpleText",
+          "rawString": "Analyze this wire transfer for fraud risk:\n\n  Transaction ID: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.transactionId"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Amount: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.transactionAmount"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Beneficiary Bank: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.beneficiaryBank"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Beneficiary Account Age: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.beneficiaryAccountAgeDays"
+        },
+        {
+          "type": "simpleText",
+          "rawString": " days\n  Vendor ID: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.vendorId"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  PO Number: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.poNumber"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n\n  Return JSON with: fraudScore (0-100), fraudClassification, riskFactors, evidenceSummary."
+        }
+      ]
+    }
+  ]
+}

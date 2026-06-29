@@ -1,0 +1,6 @@
+{
+  "ProjectType": "CaseManagement",
+  "Name": "WireFraudDispute",
+  "Description": "Wire fraud dispute case plan — orchestrates AI fraud investigation, multi-party verification, resolution synthesis, and optional human review.",
+  "MainFile": null
+}

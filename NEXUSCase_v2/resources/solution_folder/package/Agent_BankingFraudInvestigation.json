@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Agent_BankingFraudInvestigation",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "926c1f9b-1546-4fde-ab28-61ed40b9aa0e",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Agent_BankingFraudInvestigation"
+    },
+    "locks": [],
+    "key": "6297fd7b-267f-4fae-8c5a-81071df3c6fe",
+    "files": []
+  }
+}

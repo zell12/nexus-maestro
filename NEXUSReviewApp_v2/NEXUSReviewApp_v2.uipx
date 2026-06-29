@@ -1,0 +1,13 @@
+{
+    "DocVersion": "1.0.0",
+    "StudioMinVersion": "2025.04.0",
+    "SolutionId": "525412d7-3064-4335-e923-08ded380dbe7",
+    "Projects": [
+        {
+            "Type": "AppV2",
+            "ProjectRelativePath": "NEXUSReviewApp/project.uiproj",
+            "Id": "f4cea0c2-96c0-4e47-ba06-09f308119cd7"
+        }
+    ],
+    "AutomationHubIdeaUrl": null
+}

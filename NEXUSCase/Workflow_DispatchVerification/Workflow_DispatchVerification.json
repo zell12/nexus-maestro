@@ -1,0 +1,155 @@
+{
+  "document": {
+    "dsl": "1.0.0",
+    "name": "Workflow_DispatchVerification",
+    "version": "0.0.1",
+    "namespace": "default",
+    "metadata": {
+      "variables": {
+        "schema": {
+          "format": "json",
+          "document": {
+            "type": "object",
+            "properties": {
+              "nexusRouterUrl": {
+                "type": "string",
+                "default": "https://nexus-backend-199126258945.us-west1.run.app/api/dispatch-verification"
+              },
+              "requestBody": {
+                "type": "string",
+                "default": ""
+              },
+              "callInitiated": {
+                "type": "boolean",
+                "default": false
+              },
+              "callId": {
+                "type": "string",
+                "default": ""
+              }
+            },
+            "title": "Variables"
+          }
+        }
+      }
+    }
+  },
+  "input": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "contactType": { "type": "string" },
+          "vendorId": { "type": "string" },
+          "poNumber": { "type": "string" },
+          "transactionAmount": { "type": "string" }
+        },
+        "title": "Inputs"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "callInitiated": { "type": "boolean" },
+          "callId": { "type": "string" }
+        },
+        "title": "Outputs"
+      }
+    }
+  },
+  "do": [
+    {
+      "Sequence_1": {
+        "do": [
+          {
+            "WorkflowStart": {
+              "set": "${Object.entries($workflow.definition?.document?.metadata?.variables?.schema?.document?.properties || {}).reduce((acc, [name, def]) => ({ ...acc, [name]: def?.default }), {}) }",
+              "output": { "as": "${$input}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": { "activityType": "Assign", "displayName": "Workflow start", "fullName": "Assign", "isTransparent": true }
+            }
+          },
+          {
+            "Javascript_BuildBody": {
+              "run": {
+                "script": {
+                  "language": "javascript",
+                  "arguments": "${{ \"$context\": $context, \"$workflow\": $workflow, \"$input\": $input }}",
+                  "code": "const inp = $workflow.input; return JSON.stringify({ caseId: inp.caseId, contactType: inp.contactType, vendorId: inp.vendorId, poNumber: inp.poNumber, transactionAmount: inp.transactionAmount });"
+                }
+              },
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"Javascript_BuildBody\": $output } }" },
+              "metadata": { "activityType": "JsInvoke", "displayName": "Build request body", "fullName": "JsInvoke" }
+            }
+          },
+          {
+            "Assign_RequestBody": {
+              "set": { "requestBody": "${$context.outputs.Javascript_BuildBody}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": { "activityType": "Assign", "displayName": "Store request body", "fullName": "Assign" }
+            }
+          },
+          {
+            "HttpRequest_1": {
+              "call": "UiPath.Http",
+              "with": {
+                "connector": "uipath-uipath-http",
+                "connectionId": "ImplicitConnection",
+                "connectionResourceId": "ImplicitConnection",
+                "method": "POST",
+                "endpoint": "/http-request",
+                "bodyParameters": {
+                  "authentication": "manual",
+                  "method": "POST",
+                  "url": "${$context.variables.nexusRouterUrl}",
+                  "headers": { "Content-Type": "application/json" },
+                  "body": "${$context.variables.requestBody}"
+                }
+              },
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"http_request_1\": $output } }" },
+              "metadata": {
+                "fullName": "Connector",
+                "activityType": "Connector",
+                "displayName": "POST to nexus_router",
+                "uiPathActivityTypeId": "5c4cc855-b42a-37e6-b910-de8588998fce",
+                "assemblyQualifiedName": "Connector",
+                "configuration": "{\"essentialConfiguration\":{\"connectorVersion\":\"\",\"executionType\":null,\"customFieldsRequestDetails\":null,\"instanceParameters\":{\"version\":\"1.0.0\",\"connectorKey\":\"uipath-uipath-http\",\"activityType\":\"Curated\",\"objectName\":\"http-request\",\"httpMethod\":\"POST\",\"operation\":null,\"eventOperation\":null,\"eventMode\":null,\"connectorObjects\":null,\"previewEndpoint\":null},\"objectName\":\"http-request\",\"operation\":null,\"packageVersion\":\"1.0.0\",\"httpMethod\":\"POST\",\"path\":\"/http-request\",\"unifiedTypesCompatible\":true,\"savedJitInputFieldId\":\"in_http-request\"}}"
+              }
+            }
+          },
+          {
+            "Assign_CallInitiated": {
+              "set": { "callInitiated": "${$context.outputs.http_request_1?.content?.callInitiated ?? false}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": { "activityType": "Assign", "displayName": "Set callInitiated", "fullName": "Assign" }
+            }
+          },
+          {
+            "Assign_CallId": {
+              "set": { "callId": "${$context.outputs.http_request_1?.content?.callId ?? ${''}}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": { "activityType": "Assign", "displayName": "Set callId", "fullName": "Assign" }
+            }
+          },
+          {
+            "Response_1": {
+              "response": "${{ callInitiated: $context.variables.callInitiated, callId: $context.variables.callId }}",
+              "markJobAsFailed": false,
+              "then": "end",
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"Response_1\": $output } }" },
+              "metadata": { "activityType": "Response", "displayName": "Return result", "fullName": "Response" }
+            }
+          }
+        ],
+        "metadata": { "activityType": "Sequence", "displayName": "Sequence", "fullName": "Sequence" }
+      }
+    }
+  ],
+  "evaluate": { "mode": "strict", "language": "javascript" }
+}

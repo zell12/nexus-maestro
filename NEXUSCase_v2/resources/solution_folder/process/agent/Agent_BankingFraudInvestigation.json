@@ -1,0 +1,36 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Agent_BankingFraudInvestigation",
+    "kind": "process",
+    "type": "agent",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "f551f388-1f1b-4fc0-92bd-7ee719062f41",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "Agent_BankingFraudInvestigation",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Agent",
+      "name": "Agent_BankingFraudInvestigation",
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "f551f388-1f1b-4fc0-92bd-7ee719062f41",
+    "files": []
+  }
+}

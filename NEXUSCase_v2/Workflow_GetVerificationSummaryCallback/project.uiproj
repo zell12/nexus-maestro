@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Api",
+  "Name": "Workflow_GetVerificationSummaryCallback",
+  "Description": "Reads consolidated verification results after the NEXUS-verifications-complete webhook fires.",
+  "MainFile": "Workflow.json"
+}

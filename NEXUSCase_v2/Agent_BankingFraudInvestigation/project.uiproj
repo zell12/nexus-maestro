@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Agent",
+  "Name": "Agent_BankingFraudInvestigation",
+  "Description": "AI fraud risk scoring and classification agent for B2B wire transfer disputes.",
+  "MainFile": null
+}

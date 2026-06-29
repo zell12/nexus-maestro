@@ -1,0 +1,153 @@
+{
+  "document": {
+    "dsl": "1.0.0",
+    "name": "Workflow",
+    "tags": {
+      "projectId": "88cb8601-1385-436f-985a-2320a3583487"
+    },
+    "version": "1.0.0",
+    "namespace": "default",
+    "metadata": {
+      "variables": []
+    }
+  },
+  "input": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" }
+        },
+        "title": "Inputs"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "vendorInvoiceVerified": { "type": "boolean" },
+          "vendorBankingChanged": { "type": "boolean" },
+          "shipmentDispatched": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  },
+  "do": [
+    {
+      "Sequence_1": {
+        "do": [
+          {
+            "WorkflowStart": {
+              "set": "${{}}",
+              "output": { "as": "${$input}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": {
+                "activityType": "Assign",
+                "displayName": "Workflow start",
+                "fullName": "Assign",
+                "isTransparent": true
+              }
+            }
+          },
+          {
+            "Get_Asset_Callback_URL": {
+              "call": "UiPath.IntSvc",
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"callback_url\": $output } }" },
+              "with": {
+                "connector": "uipath-uipath-orchestrator",
+                "connectionId": "UiPath_Orchestrator",
+                "connectionResourceId": "UiPath_Orchestrator",
+                "method": "GET",
+                "endpoint": "/assets/{id}",
+                "pathParameters": { "id": "callback_url" }
+              },
+              "metadata": {
+                "activityType": "Connector",
+                "displayName": "Get Asset - Callback URL",
+                "fullName": "Connector"
+              }
+            }
+          },
+          {
+            "Try_Catch_1": {
+              "name": "Try Catch",
+              "try": [
+                {
+                  "HTTP_Get_Verification_Summary": {
+                    "call": "UiPath.Http",
+                    "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"verification_summary\": $output } }" },
+                    "with": {
+                      "connector": "uipath-uipath-http",
+                      "connectionId": "ImplicitConnection",
+                      "connectionResourceId": null,
+                      "method": "GET",
+                      "endpoint": "/http-request",
+                      "bodyParameters": {
+                        "authentication": "manual",
+                        "method": "GET",
+                        "url": "${$context.outputs.callback_url.content + \"/api/verification-summary/\" + $workflow.input.caseId}"
+                      }
+                    },
+                    "metadata": {
+                      "activityType": "Connector",
+                      "displayName": "HTTP Request - Get consolidated verification results",
+                      "fullName": "Connector"
+                    }
+                  }
+                },
+                {
+                  "Response_Success": {
+                    "response": "${{ \"vendorInvoiceVerified\": $context.outputs.verification_summary.body.vendorInvoiceVerified ?? false, \"vendorBankingChanged\": $context.outputs.verification_summary.body.vendorBankingChanged ?? false, \"shipmentDispatched\": $context.outputs.verification_summary.body.shipmentDispatched ?? false }}",
+                    "markJobAsFailed": false,
+                    "then": "end",
+                    "metadata": {
+                      "activityType": "Response",
+                      "displayName": "Response - Verification Summary",
+                      "fullName": "Response"
+                    }
+                  }
+                }
+              ],
+              "catch": {
+                "as": "error",
+                "do": [
+                  {
+                    "Response_Failure": {
+                      "response": "${{ \"vendorInvoiceVerified\": false, \"vendorBankingChanged\": false, \"shipmentDispatched\": false }}",
+                      "markJobAsFailed": false,
+                      "then": "end",
+                      "metadata": {
+                        "activityType": "Response",
+                        "displayName": "Response - Fetch Failed (default safe values)",
+                        "fullName": "Response"
+                      }
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "activityType": "TryCatch",
+                "displayName": "Try Catch",
+                "fullName": "TryCatch"
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "activityType": "Sequence",
+          "displayName": "Sequence",
+          "fullName": "Sequence"
+        }
+      }
+    }
+  ],
+  "evaluate": {
+    "mode": "strict",
+    "language": "javascript"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_DispatchVerificationOutboundCall",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "79a2289d-1962-4575-b1fa-3833d7936858",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Workflow_DispatchVerificationOutboundCall"
+    },
+    "locks": [],
+    "key": "0565ea08-a4f0-42ba-a1e6-42796a787721",
+    "files": []
+  }
+}

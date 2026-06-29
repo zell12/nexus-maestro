@@ -1,0 +1,17 @@
+{
+    "DocVersion": "1.0.0",
+    "StudioMinVersion": "2025.10.0",
+    "SolutionId": "e645fb28-6bca-469a-5fa3-08dec248fc52",
+    "Projects": [
+        {
+            "Type": "CaseManagement",
+            "ProjectRelativePath": "WireFraudDispute/project.uiproj",
+            "Id": "7fc65306-0577-4283-b73e-7fde200ca3b2"
+        },
+        {
+            "Type": "Api",
+            "ProjectRelativePath": "Workflow_DispatchVerification/project.uiproj",
+            "Id": "bf9cd5fd-5819-4207-999a-a3d1fd0bf97f"
+        }
+    ]
+}

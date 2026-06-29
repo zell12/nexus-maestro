@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Agent",
+  "Name": "Agent_WireFraudResolutionSynthesis",
+  "Description": "AI resolution synthesis agent — generates case narrative, ARIA response script, and determines resolution action.",
+  "MainFile": null
+}

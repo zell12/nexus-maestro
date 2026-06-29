@@ -1,0 +1,36 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_DispatchVerificationOutboundCall",
+    "kind": "process",
+    "type": "api",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "b4cb5d8d-cdcc-4d38-879b-2b63ffb59391",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "Workflow_DispatchVerificationOutboundCall",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Api",
+      "name": "Workflow_DispatchVerificationOutboundCall",
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "b4cb5d8d-cdcc-4d38-879b-2b63ffb59391",
+    "files": []
+  }
+}

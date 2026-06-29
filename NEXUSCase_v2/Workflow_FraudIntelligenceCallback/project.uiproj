@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Api",
+  "Name": "Workflow_FraudIntelligenceCallback",
+  "Description": "Publishes AI fraud intelligence findings back to the Maestro case variables.",
+  "MainFile": "Workflow.json"
+}

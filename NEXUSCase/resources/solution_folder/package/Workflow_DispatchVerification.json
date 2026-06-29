@@ -1,0 +1,22 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_DispatchVerification",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "bf9cd5fd-5819-4207-999a-a3d1fd0bf97f",
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Workflow_DispatchVerification"
+    },
+    "locks": [],
+    "key": "314bd3e4-369c-4c44-be3a-3adf01a28c64",
+    "files": []
+  }
+}

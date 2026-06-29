@@ -1,0 +1,36 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_GetVerificationSummaryCallback",
+    "kind": "process",
+    "type": "api",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "88cb8601-1385-436f-985a-2320a3583487",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "Workflow_GetVerificationSummaryCallback",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Api",
+      "name": "Workflow_GetVerificationSummaryCallback",
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "88cb8601-1385-436f-985a-2320a3583487",
+    "files": []
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "content/Workflow.json",
+      "uniqueId": "b04fb2a9-38fb-4816-999f-6c5b501035b6",
+      "type": "Api",
+      "input": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "fraudScore": { "type": "number" },
+          "fraudClassification": { "type": "string" },
+          "riskFactors": { "type": "string" },
+          "evidenceSummary": { "type": "string" }
+        },
+        "title": "Inputs"
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "published": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  ]
+}

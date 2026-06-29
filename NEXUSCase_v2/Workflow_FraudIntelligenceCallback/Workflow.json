@@ -1,0 +1,156 @@
+{
+  "document": {
+    "dsl": "1.0.0",
+    "name": "Workflow",
+    "tags": {
+      "projectId": "b04fb2a9-38fb-4816-999f-6c5b501035b6"
+    },
+    "version": "1.0.0",
+    "namespace": "default",
+    "metadata": {
+      "variables": []
+    }
+  },
+  "input": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "fraudScore": { "type": "number" },
+          "fraudClassification": { "type": "string" },
+          "riskFactors": { "type": "string" },
+          "evidenceSummary": { "type": "string" }
+        },
+        "title": "Inputs"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "published": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  },
+  "do": [
+    {
+      "Sequence_1": {
+        "do": [
+          {
+            "WorkflowStart": {
+              "set": "${{}}",
+              "output": { "as": "${$input}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": {
+                "activityType": "Assign",
+                "displayName": "Workflow start",
+                "fullName": "Assign",
+                "isTransparent": true
+              }
+            }
+          },
+          {
+            "Get_Asset_Callback_URL": {
+              "call": "UiPath.IntSvc",
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"callback_url\": $output } }" },
+              "with": {
+                "connector": "uipath-uipath-orchestrator",
+                "connectionId": "UiPath_Orchestrator",
+                "connectionResourceId": "UiPath_Orchestrator",
+                "method": "GET",
+                "endpoint": "/assets/{id}",
+                "pathParameters": { "id": "callback_url" }
+              },
+              "metadata": {
+                "activityType": "Connector",
+                "displayName": "Get Asset - Callback URL",
+                "fullName": "Connector"
+              }
+            }
+          },
+          {
+            "Try_Catch_1": {
+              "name": "Try Catch",
+              "try": [
+                {
+                  "HTTP_Publish_Fraud_Results": {
+                    "call": "UiPath.Http",
+                    "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"publish_result\": $output } }" },
+                    "with": {
+                      "connector": "uipath-uipath-http",
+                      "connectionId": "ImplicitConnection",
+                      "connectionResourceId": null,
+                      "method": "POST",
+                      "endpoint": "/http-request",
+                      "bodyParameters": {
+                        "authentication": "manual",
+                        "method": "POST",
+                        "url": "${$context.outputs.callback_url.content + \"/api/fraud-intelligence-callback\"}",
+                        "body": "${{ \"caseId\": $workflow.input.caseId, \"fraudScore\": $workflow.input.fraudScore, \"fraudClassification\": $workflow.input.fraudClassification, \"riskFactors\": $workflow.input.riskFactors, \"evidenceSummary\": $workflow.input.evidenceSummary }}"
+                      }
+                    },
+                    "metadata": {
+                      "activityType": "Connector",
+                      "displayName": "HTTP Request - Publish fraud intelligence to NEXUS War Room",
+                      "fullName": "Connector"
+                    }
+                  }
+                },
+                {
+                  "Response_Success": {
+                    "response": "${{ \"published\": true }}",
+                    "markJobAsFailed": false,
+                    "then": "end",
+                    "metadata": {
+                      "activityType": "Response",
+                      "displayName": "Response - Published",
+                      "fullName": "Response"
+                    }
+                  }
+                }
+              ],
+              "catch": {
+                "as": "error",
+                "do": [
+                  {
+                    "Response_Failure": {
+                      "response": "${{ \"published\": false }}",
+                      "markJobAsFailed": false,
+                      "then": "end",
+                      "metadata": {
+                        "activityType": "Response",
+                        "displayName": "Response - Publish Failed",
+                        "fullName": "Response"
+                      }
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "activityType": "TryCatch",
+                "displayName": "Try Catch",
+                "fullName": "TryCatch"
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "activityType": "Sequence",
+          "displayName": "Sequence",
+          "fullName": "Sequence"
+        }
+      }
+    }
+  ],
+  "evaluate": {
+    "mode": "strict",
+    "language": "javascript"
+  }
+}

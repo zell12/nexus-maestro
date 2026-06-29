@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Api",
+  "Name": "Workflow_ResolutionCallback",
+  "Description": "Delivers the AI-generated ARIA response script and executes wire recall or closes the case.",
+  "MainFile": "Workflow.json"
+}

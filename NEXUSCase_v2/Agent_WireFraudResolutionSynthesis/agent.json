@@ -1,0 +1,153 @@
+{
+  "version": "1.1.0",
+  "settings": {
+    "model": "gpt-5.4",
+    "maxTokens": 128000,
+    "temperature": 0,
+    "engine": "basic-v2",
+    "maxIterations": 25,
+    "mode": "standard"
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "caseId": {
+        "type": "string"
+      },
+      "transactionAmount": {
+        "type": "string"
+      },
+      "fraudScore": {
+        "type": "number"
+      },
+      "fraudClassification": {
+        "type": "string"
+      },
+      "evidenceSummary": {
+        "type": "string"
+      },
+      "vendorInvoiceVerified": {
+        "type": "boolean"
+      },
+      "vendorBankingChanged": {
+        "type": "boolean"
+      },
+      "shipmentDispatched": {
+        "type": "boolean"
+      }
+    },
+    "title": "Inputs"
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "resolutionAction": {
+        "type": "string"
+      },
+      "caseNarrative": {
+        "type": "string"
+      },
+      "ariaResponseText": {
+        "type": "string"
+      },
+      "fbiReferralRequired": {
+        "type": "boolean"
+      }
+    },
+    "title": "Outputs"
+  },
+  "metadata": {
+    "storageVersion": "50.0.0",
+    "isConversational": false,
+    "showProjectCreationExperience": false,
+    "targetRuntime": "pythonAgent"
+  },
+  "type": "lowCode",
+  "projectId": "86623843-9c67-42ce-bdcd-53c287c54d2d",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a financial fraud resolution specialist for a B2B wire fraud investigation system.\n  You receive structured evidence from a completed multi-party fraud investigation and must\n  synthesize a definitive resolution.\n\n  Your job is to:\n  1. Determine the resolution action based on the fraud score, classification, and verification results\n  2. Write a formal case narrative for the audit record\n  3. Write verbatim text for the ARIA voice agent to read to the customer over the phone —\n     professional, calm, and clear (2-4 sentences max)\n  4. Determine if FBI referral is required\n\n  Resolution action rules:\n  - fraudScore >= 80 AND (vendorBankingChanged = true OR vendorInvoiceVerified = false):\n    resolutionAction = \"recall_initiated\"\n  - fraudScore >= 60 AND shipmentDispatched = false:\n    resolutionAction = \"recall_initiated\"\n  - fraudScore >= 80 AND shipmentDispatched = true:\n    resolutionAction = \"escalated\"\n  - fraudScore < 60 AND vendorInvoiceVerified = true AND shipmentDispatched = true:\n    resolutionAction = \"declined\"\n  - All other cases: resolutionAction = \"monitoring\"\n\n  FBI referral rules:\n  - fbiReferralRequired = true when: resolutionAction = \"recall_initiated\" AND transactionAmount > 50000\n  - Otherwise false\n\n  ARIA response text rules:\n  - Keep it under 4 sentences\n  - Reference the transaction amount and resolution action in plain language\n  - Never say \"FBI referral\" directly — say \"we are escalating to our financial crimes unit\"\n  - Tone: calm, reassuring, authoritative\n\n  Always respond with valid JSON matching the output schema exactly.",
+      "contentTokens": [
+        {
+          "type": "simpleText",
+          "rawString": "You are a financial fraud resolution specialist for a B2B wire fraud investigation system.\n  You receive structured evidence from a completed multi-party fraud investigation and must\n  synthesize a definitive resolution.\n\n  Your job is to:\n  1. Determine the resolution action based on the fraud score, classification, and verification results\n  2. Write a formal case narrative for the audit record\n  3. Write verbatim text for the ARIA voice agent to read to the customer over the phone —\n     professional, calm, and clear (2-4 sentences max)\n  4. Determine if FBI referral is required\n\n  Resolution action rules:\n  - fraudScore >= 80 AND (vendorBankingChanged = true OR vendorInvoiceVerified = false):\n    resolutionAction = \"recall_initiated\"\n  - fraudScore >= 60 AND shipmentDispatched = false:\n    resolutionAction = \"recall_initiated\"\n  - fraudScore >= 80 AND shipmentDispatched = true:\n    resolutionAction = \"escalated\"\n  - fraudScore < 60 AND vendorInvoiceVerified = true AND shipmentDispatched = true:\n    resolutionAction = \"declined\"\n  - All other cases: resolutionAction = \"monitoring\"\n\n  FBI referral rules:\n  - fbiReferralRequired = true when: resolutionAction = \"recall_initiated\" AND transactionAmount > 50000\n  - Otherwise false\n\n  ARIA response text rules:\n  - Keep it under 4 sentences\n  - Reference the transaction amount and resolution action in plain language\n  - Never say \"FBI referral\" directly — say \"we are escalating to our financial crimes unit\"\n  - Tone: calm, reassuring, authoritative\n\n  Always respond with valid JSON matching the output schema exactly."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Synthesize the resolution for the following wire fraud investigation:\n\n  Case ID: {{input.caseId}}\n  Transaction Amount: {{input.transactionAmount}}\n  Fraud Score: {{input.fraudScore}}/100\n  Classification: {{input.fraudClassification}}\n  Evidence Summary: {{input.evidenceSummary}}\n  Vendor Invoice Verified: {{input.vendorInvoiceVerified}}\n  Vendor Banking Details Changed: {{input.vendorBankingChanged}}\n  Shipment Dispatched: {{input.shipmentDispatched}}\n\n  Return a JSON object with: resolutionAction, caseNarrative, ariaResponseText, fbiReferralRequired.",
+      "contentTokens": [
+        {
+          "type": "simpleText",
+          "rawString": "Synthesize the resolution for the following wire fraud investigation:\n\n  Case ID: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.caseId"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Transaction Amount: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.transactionAmount"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Fraud Score: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.fraudScore"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "/100\n  Classification: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.fraudClassification"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Evidence Summary: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.evidenceSummary"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Vendor Invoice Verified: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.vendorInvoiceVerified"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Vendor Banking Details Changed: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.vendorBankingChanged"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n  Shipment Dispatched: "
+        },
+        {
+          "type": "variable",
+          "rawString": "input.shipmentDispatched"
+        },
+        {
+          "type": "simpleText",
+          "rawString": "\n\n  Return a JSON object with: resolutionAction, caseNarrative, ariaResponseText, fbiReferralRequired."
+        }
+      ]
+    }
+  ]
+}

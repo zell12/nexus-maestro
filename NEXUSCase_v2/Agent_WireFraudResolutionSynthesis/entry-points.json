@@ -1,0 +1,35 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "agent.json",
+      "uniqueId": "86623843-9c67-42ce-bdcd-53c287c54d2d",
+      "type": "Agent",
+      "input": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "transactionAmount": { "type": "string" },
+          "fraudScore": { "type": "number" },
+          "fraudClassification": { "type": "string" },
+          "evidenceSummary": { "type": "string" },
+          "vendorInvoiceVerified": { "type": "boolean" },
+          "vendorBankingChanged": { "type": "boolean" },
+          "shipmentDispatched": { "type": "boolean" }
+        },
+        "title": "Inputs"
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "resolutionAction": { "type": "string" },
+          "caseNarrative": { "type": "string" },
+          "ariaResponseText": { "type": "string" },
+          "fbiReferralRequired": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  ]
+}

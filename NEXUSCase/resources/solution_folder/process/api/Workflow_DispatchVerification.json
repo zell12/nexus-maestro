@@ -1,0 +1,38 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_DispatchVerification",
+    "kind": "process",
+    "type": "api",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "bf9cd5fd-5819-4207-999a-a3d1fd0bf97f",
+    "dependencies": [
+      {
+        "kind": "package",
+        "name": "Workflow_DispatchVerification"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Api",
+      "name": "Workflow_DispatchVerification",
+      "package": {
+        "key": "314bd3e4-369c-4c44-be3a-3adf01a28c64"
+      },
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "d5c8d758-f51a-49b8-b86f-ef5e2f2463ad",
+    "files": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_FraudIntelligenceCallback",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "7b08cc95-88f6-4da9-9aa7-279a4c290185",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Workflow_FraudIntelligenceCallback"
+    },
+    "locks": [],
+    "key": "6cef5ee9-fd7d-496f-92a9-0ab169955e5a",
+    "files": []
+  }
+}

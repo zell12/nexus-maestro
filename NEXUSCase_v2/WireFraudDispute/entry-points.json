@@ -1,0 +1,11 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "caseplan.json",
+      "uniqueId": "7fc65306-0577-4283-b73e-7fde200ca3b2",
+      "type": "CaseManagement"
+    }
+  ]
+}

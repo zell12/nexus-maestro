@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_GetVerificationSummaryCallback",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "8a9e175c-009e-41ce-a118-1c7b1afeafe0",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Workflow_GetVerificationSummaryCallback"
+    },
+    "locks": [],
+    "key": "4578219e-7866-4909-877d-a3ce089eba23",
+    "files": []
+  }
+}

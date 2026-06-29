@@ -1,0 +1,27 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "UiPath Orchestrator",
+    "kind": "connection",
+    "type": "uipath-uipath-orchestrator",
+    "apiVersion": "integrationservice.uipath.com/v1",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "connectorName": "UiPath Orchestrator",
+      "name": "UiPath Orchestrator",
+      "authenticationType": "AuthenticateAfterDeployment",
+      "connectorVersion": "1.12.0",
+      "connectorKey": "uipath-uipath-orchestrator"
+    },
+    "locks": [],
+    "key": "d8d8708d-a579-45a0-954c-86156160bb4c",
+    "files": []
+  }
+}

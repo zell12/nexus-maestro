@@ -1,0 +1,31 @@
+{
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "caseId": { "type": "string", "required": true, "description": "Wire fraud dispute case identifier" },
+      "transactionAmount": { "type": "number", "required": false, "description": "Disputed wire amount (USD)" },
+      "fraudScore": { "type": "integer", "required": false, "description": "AI fraud risk score, 0-100" },
+      "evidenceSummary": { "type": "string", "required": false, "description": "Fraud intelligence evidence summary" },
+      "resolutionAction": { "type": "string", "required": false, "description": "AI-recommended resolution action" },
+      "caseNarrative": { "type": "string", "required": false, "description": "Formal case narrative for the audit record" }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "analystDecision": { "type": "string", "required": false, "description": "Analyst decision: recall_initiated or no_action" },
+      "analystNotes": { "type": "string", "required": false, "description": "Optional analyst review notes" }
+    }
+  },
+  "inOuts": {
+    "type": "object",
+    "properties": {}
+  },
+  "outcomes": {
+    "type": "object",
+    "properties": {
+      "ConfirmRecall": { "type": "string" },
+      "OverrideNoAction": { "type": "string" }
+    }
+  }
+}

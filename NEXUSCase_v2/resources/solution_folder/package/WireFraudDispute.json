@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "WireFraudDispute",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "7fc65306-0577-4283-b73e-7fde200ca3b2",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "WireFraudDispute"
+    },
+    "locks": [],
+    "key": "49b7c0db-3671-4046-a296-2437c72dd368",
+    "files": []
+  }
+}

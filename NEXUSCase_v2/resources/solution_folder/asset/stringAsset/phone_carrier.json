@@ -1,0 +1,28 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "phone_carrier",
+    "kind": "asset",
+    "type": "stringAsset",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Text",
+      "value": "+16027383585",
+      "name": "phone_carrier",
+      "description": "Phone number for the carrier verification outbound call (ARIA/LiveKit)",
+      "scope": "global",
+      "tags": []
+    },
+    "locks": [],
+    "key": "5f32db8e-a53f-4972-aa55-0760a484f57f",
+    "files": []
+  }
+}

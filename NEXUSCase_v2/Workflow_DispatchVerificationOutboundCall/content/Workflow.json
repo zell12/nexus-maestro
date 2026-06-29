@@ -1,0 +1,251 @@
+{
+  "document": {
+    "dsl": "1.0.0",
+    "name": "Workflow",
+    "tags": {
+      "projectId": "b4cb5d8d-cdcc-4d38-879b-2b63ffb59391"
+    },
+    "version": "1.0.0",
+    "namespace": "default",
+    "metadata": {
+      "variables": []
+    }
+  },
+  "input": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "transactionAmount": { "type": "string" },
+          "contactType": { "type": "string" },
+          "vendorId": { "type": "string" },
+          "poNumber": { "type": "string" }
+        },
+        "title": "Inputs"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "callInitiated": { "type": "boolean" },
+          "callId": { "type": "string" }
+        },
+        "title": "Outputs"
+      }
+    }
+  },
+  "do": [
+    {
+      "Sequence_1": {
+        "do": [
+          {
+            "WorkflowStart": {
+              "set": "${{}}",
+              "output": { "as": "${$input}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": {
+                "activityType": "Assign",
+                "displayName": "Workflow start",
+                "fullName": "Assign",
+                "isTransparent": true
+              }
+            }
+          },
+          {
+            "Get_Asset_Callback_URL": {
+              "call": "UiPath.IntSvc",
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"callback_url\": $output } }" },
+              "with": {
+                "connector": "uipath-uipath-orchestrator",
+                "connectionId": "UiPath_Orchestrator",
+                "connectionResourceId": "UiPath_Orchestrator",
+                "method": "GET",
+                "endpoint": "/assets/{id}",
+                "pathParameters": { "id": "callback_url" }
+              },
+              "metadata": {
+                "activityType": "Connector",
+                "displayName": "Get Asset - Callback URL",
+                "fullName": "Connector"
+              }
+            }
+          },
+          {
+            "Try_Catch_1": {
+              "name": "Try Catch",
+              "try": [
+                {
+                  "If_Contact_Type": {
+                    "switch": [
+                      {
+                        "case": {
+                          "when": "${$workflow.input.contactType === \"carrier\"}",
+                          "then": "If_Contact_Type#Carrier"
+                        }
+                      },
+                      {
+                        "default": {
+                          "then": "If_Contact_Type#Vendor"
+                        }
+                      }
+                    ],
+                    "metadata": { "displayName": "If contactType is carrier" }
+                  }
+                },
+                {
+                  "If_Contact_Type#Carrier": {
+                    "do": [
+                      {
+                        "Get_Asset_Carrier_Phone": {
+                          "call": "UiPath.IntSvc",
+                          "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"carrier_phone\": $output } }" },
+                          "with": {
+                            "connector": "uipath-uipath-orchestrator",
+                            "connectionId": "UiPath_Orchestrator",
+                            "connectionResourceId": "UiPath_Orchestrator",
+                            "method": "GET",
+                            "endpoint": "/assets/{id}",
+                            "pathParameters": { "id": "phone_carrier" }
+                          },
+                          "metadata": {
+                            "activityType": "Connector",
+                            "displayName": "Get Asset - Carrier Phone Number",
+                            "fullName": "Connector"
+                          }
+                        }
+                      },
+                      {
+                        "HTTP_Request_Carrier": {
+                          "call": "UiPath.Http",
+                          "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"http_carrier\": $output } }" },
+                          "with": {
+                            "connector": "uipath-uipath-http",
+                            "connectionId": "ImplicitConnection",
+                            "connectionResourceId": null,
+                            "method": "POST",
+                            "endpoint": "/http-request",
+                            "bodyParameters": {
+                              "authentication": "manual",
+                              "method": "POST",
+                              "url": "${$context.outputs.callback_url.content + \"/api/dispatch-verification\"}",
+                              "body": "${{ \"contactType\": $workflow.input.contactType, \"caseId\": $workflow.input.caseId, \"poNumber\": $workflow.input.poNumber, \"phoneNumber\": $context.outputs.carrier_phone.content }}"
+                            }
+                          },
+                          "metadata": {
+                            "activityType": "Connector",
+                            "displayName": "HTTP Request - Dispatch carrier verification call",
+                            "fullName": "Connector"
+                          }
+                        }
+                      }
+                    ],
+                    "then": "exit"
+                  }
+                },
+                {
+                  "If_Contact_Type#Vendor": {
+                    "do": [
+                      {
+                        "Get_Asset_Vendor_Phone": {
+                          "call": "UiPath.IntSvc",
+                          "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"vendor_phone\": $output } }" },
+                          "with": {
+                            "connector": "uipath-uipath-orchestrator",
+                            "connectionId": "UiPath_Orchestrator",
+                            "connectionResourceId": "UiPath_Orchestrator",
+                            "method": "GET",
+                            "endpoint": "/assets/{id}",
+                            "pathParameters": { "id": "phone_vendor" }
+                          },
+                          "metadata": {
+                            "activityType": "Connector",
+                            "displayName": "Get Asset - Vendor Phone Number",
+                            "fullName": "Connector"
+                          }
+                        }
+                      },
+                      {
+                        "HTTP_Request_Vendor": {
+                          "call": "UiPath.Http",
+                          "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"http_vendor\": $output } }" },
+                          "with": {
+                            "connector": "uipath-uipath-http",
+                            "connectionId": "ImplicitConnection",
+                            "connectionResourceId": null,
+                            "method": "POST",
+                            "endpoint": "/http-request",
+                            "bodyParameters": {
+                              "authentication": "manual",
+                              "method": "POST",
+                              "url": "${$context.outputs.callback_url.content + \"/api/dispatch-verification\"}",
+                              "body": "${{ \"contactType\": $workflow.input.contactType, \"caseId\": $workflow.input.caseId, \"poNumber\": $workflow.input.poNumber, \"vendorId\": $workflow.input.vendorId, \"transactionAmount\": $workflow.input.transactionAmount, \"phoneNumber\": $context.outputs.vendor_phone.content }}"
+                            }
+                          },
+                          "metadata": {
+                            "activityType": "Connector",
+                            "displayName": "HTTP Request - Dispatch vendor verification call",
+                            "fullName": "Connector"
+                          }
+                        }
+                      }
+                    ],
+                    "then": "exit"
+                  }
+                },
+                {
+                  "Response_Success": {
+                    "response": "${{ \"callInitiated\": true, \"callId\": $workflow.input.caseId + \"-\" + $workflow.input.contactType }}",
+                    "markJobAsFailed": false,
+                    "then": "end",
+                    "metadata": {
+                      "activityType": "Response",
+                      "displayName": "Response - Call Initiated",
+                      "fullName": "Response"
+                    }
+                  }
+                }
+              ],
+              "catch": {
+                "as": "error",
+                "do": [
+                  {
+                    "Response_Failure": {
+                      "response": "${{ \"callInitiated\": false, \"callId\": \"\" }}",
+                      "markJobAsFailed": false,
+                      "then": "end",
+                      "metadata": {
+                        "activityType": "Response",
+                        "displayName": "Response - Call Failed",
+                        "fullName": "Response"
+                      }
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "activityType": "TryCatch",
+                "displayName": "Try Catch",
+                "fullName": "TryCatch"
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "activityType": "Sequence",
+          "displayName": "Sequence",
+          "fullName": "Sequence"
+        }
+      }
+    }
+  ],
+  "evaluate": {
+    "mode": "strict",
+    "language": "javascript"
+  }
+}

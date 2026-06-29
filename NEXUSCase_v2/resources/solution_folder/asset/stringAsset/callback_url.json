@@ -1,0 +1,28 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "callback_url",
+    "kind": "asset",
+    "type": "stringAsset",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Text",
+      "value": "placeholder",
+      "name": "callback_url",
+      "description": "Base URL of the ARIA/NEXUS backend for API callbacks",
+      "scope": "global",
+      "tags": []
+    },
+    "locks": [],
+    "key": "609b3410-d1df-440b-b42d-9dc9cdc0f4a7",
+    "files": []
+  }
+}

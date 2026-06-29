@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "NEXUSReviewApp",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "f4cea0c2-96c0-4e47-ba06-09f308119cd7",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "NEXUSReviewApp"
+    },
+    "locks": [],
+    "key": "3d4f4ddc-35aa-4702-96cf-77a8f29ed127",
+    "files": []
+  }
+}

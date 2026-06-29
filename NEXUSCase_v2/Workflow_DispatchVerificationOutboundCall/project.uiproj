@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Api",
+  "Name": "Workflow_DispatchVerificationOutboundCall",
+  "Description": "Dispatches an outbound ARIA verification call to either the vendor or the carrier.",
+  "MainFile": "Workflow.json"
+}

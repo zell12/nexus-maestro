@@ -1,0 +1,32 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "NEXUSReviewApp.AppV2.NEXUSReviewApp",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "fileName": "NEXUSReviewApp.AppV2.NEXUSReviewApp.2.0.1.nupkg",
+      "fileReference": "NEXUSReviewApp.AppV2.NEXUSReviewApp_2.0.1",
+      "name": "NEXUSReviewApp.AppV2.NEXUSReviewApp"
+    },
+    "locks": [],
+    "key": "NEXUSReviewApp.AppV2.NEXUSReviewApp:2.0.1",
+    "files": [
+      {
+        "name": "NEXUSReviewApp.AppV2.NEXUSReviewApp.2.0.1.nupkg",
+        "kind": "Package",
+        "version": "2.0.1",
+        "url": "https://staging.uipath.com/80af6012-ee6e-4c90-8b8e-bacac76f3560/480b9375-bf33-4ea2-b587-b5c358f9f6e5/orchestrator_/odata/Processes/UiPath.Server.Configuration.OData.DownloadPackage(key='NEXUSReviewApp.AppV2.NEXUSReviewApp:2.0.1')?feedId=84f457fd-de4d-478e-ac2c-bef441fc6664",
+        "key": "NEXUSReviewApp.AppV2.NEXUSReviewApp_2.0.1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+    "DocVersion": "1.0.0",
+    "StudioMinVersion": "2025.04.0",
+    "SolutionId": "e8b02852-e66a-40f6-c06f-08ded382fee9",
+    "Projects": [
+        {
+            "Type": "CaseManagement",
+            "ProjectRelativePath": "WireFraudDispute/project.uiproj",
+            "Id": "7fc65306-0577-4283-b73e-7fde200ca3b2"
+        },
+        {
+            "Type": "Api",
+            "ProjectRelativePath": "Workflow_ResolutionCallback/project.uiproj",
+            "Id": "fd1ce016-ebb4-441a-a338-dc15aaf01a36"
+        },
+        {
+            "Type": "Agent",
+            "ProjectRelativePath": "Agent_WireFraudResolutionSynthesis/project.uiproj",
+            "Id": "7eee8fc2-524a-4feb-85c7-1ac311a429c3"
+        },
+        {
+            "Type": "Agent",
+            "ProjectRelativePath": "Agent_BankingFraudInvestigation/project.uiproj",
+            "Id": "926c1f9b-1546-4fde-ab28-61ed40b9aa0e"
+        },
+        {
+            "Type": "Api",
+            "ProjectRelativePath": "Workflow_DispatchVerificationOutboundCall/project.uiproj",
+            "Id": "79a2289d-1962-4575-b1fa-3833d7936858"
+        },
+        {
+            "Type": "Api",
+            "ProjectRelativePath": "Workflow_GetVerificationSummaryCallback/project.uiproj",
+            "Id": "8a9e175c-009e-41ce-a118-1c7b1afeafe0"
+        },
+        {
+            "Type": "Api",
+            "ProjectRelativePath": "Workflow_FraudIntelligenceCallback/project.uiproj",
+            "Id": "7b08cc95-88f6-4da9-9aa7-279a4c290185"
+        }
+    ],
+    "AutomationHubIdeaUrl": null
+}

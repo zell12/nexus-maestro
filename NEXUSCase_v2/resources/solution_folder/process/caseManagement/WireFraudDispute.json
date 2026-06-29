@@ -1,0 +1,39 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "WireFraudDispute",
+    "kind": "process",
+    "type": "caseManagement",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "7fc65306-0577-4283-b73e-7fde200ca3b2",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "WireFraudDispute",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "CaseManagement",
+      "name": "WireFraudDispute",
+      "package": {
+        "key": "49b7c0db-3671-4046-a296-2437c72dd368"
+      },
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "51c2669f-6183-4487-8a77-d9475a791a70",
+    "files": []
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "document": {
+    "dsl": "1.0.0",
+    "name": "Workflow",
+    "tags": {
+      "projectId": "785d4cae-3382-4e74-aa78-89b1068ea1a6"
+    },
+    "version": "1.0.0",
+    "namespace": "default",
+    "metadata": {
+      "variables": []
+    }
+  },
+  "input": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" },
+          "transactionId": { "type": "string" },
+          "ariaResponseText": { "type": "string" },
+          "resolutionAction": { "type": "string" },
+          "fbiReferralRequired": { "type": "boolean" }
+        },
+        "title": "Inputs"
+      }
+    }
+  },
+  "output": {
+    "schema": {
+      "format": "json",
+      "document": {
+        "type": "object",
+        "properties": {
+          "wireRecallInitiated": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  },
+  "do": [
+    {
+      "Sequence_1": {
+        "do": [
+          {
+            "WorkflowStart": {
+              "set": "${{ \"wireRecallInitiated\": false }}",
+              "output": { "as": "${$input}" },
+              "export": { "as": "{ ...$context, variables: { ...$context.variables, ...$output } }" },
+              "metadata": {
+                "activityType": "Assign",
+                "displayName": "Workflow start",
+                "fullName": "Assign",
+                "isTransparent": true
+              }
+            }
+          },
+          {
+            "Get_Asset_Callback_URL": {
+              "call": "UiPath.IntSvc",
+              "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"callback_url\": $output } }" },
+              "with": {
+                "connector": "uipath-uipath-orchestrator",
+                "connectionId": "UiPath_Orchestrator",
+                "connectionResourceId": "UiPath_Orchestrator",
+                "method": "GET",
+                "endpoint": "/assets/{id}",
+                "pathParameters": { "id": "callback_url" }
+              },
+              "metadata": {
+                "activityType": "Connector",
+                "displayName": "Get Asset - Callback URL",
+                "fullName": "Connector"
+              }
+            }
+          },
+          {
+            "Try_Catch_1": {
+              "name": "Try Catch",
+              "try": [
+                {
+                  "HTTP_Post_ARIA_Script": {
+                    "call": "UiPath.Http",
+                    "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"aria_post\": $output } }" },
+                    "with": {
+                      "connector": "uipath-uipath-http",
+                      "connectionId": "ImplicitConnection",
+                      "connectionResourceId": null,
+                      "method": "POST",
+                      "endpoint": "/http-request",
+                      "bodyParameters": {
+                        "authentication": "manual",
+                        "method": "POST",
+                        "url": "${$context.outputs.callback_url.content + \"/api/resolution-callback\"}",
+                        "body": "${{ \"caseId\": $workflow.input.caseId, \"transactionId\": $workflow.input.transactionId, \"ariaResponseText\": $workflow.input.ariaResponseText, \"resolutionAction\": $workflow.input.resolutionAction, \"fbiReferralRequired\": $workflow.input.fbiReferralRequired }}"
+                      }
+                    },
+                    "metadata": {
+                      "activityType": "Connector",
+                      "displayName": "HTTP Request - Post ARIA response script and resolution",
+                      "fullName": "Connector"
+                    }
+                  }
+                },
+                {
+                  "If_Recall_Required": {
+                    "switch": [
+                      {
+                        "case": {
+                          "when": "${$workflow.input.resolutionAction === \"recall_initiated\"}",
+                          "then": "If_Recall_Required#Recall"
+                        }
+                      },
+                      {
+                        "default": {
+                          "then": "If_Recall_Required#NoRecall"
+                        }
+                      }
+                    ],
+                    "metadata": { "displayName": "If recall_initiated" }
+                  }
+                },
+                {
+                  "If_Recall_Required#Recall": {
+                    "do": [
+                      {
+                        "HTTP_Initiate_Wire_Recall": {
+                          "call": "UiPath.Http",
+                          "export": { "as": "{ ...$context, outputs: { ...$context?.outputs, \"recall_result\": $output } }" },
+                          "with": {
+                            "connector": "uipath-uipath-http",
+                            "connectionId": "ImplicitConnection",
+                            "connectionResourceId": null,
+                            "method": "POST",
+                            "endpoint": "/http-request",
+                            "bodyParameters": {
+                              "authentication": "manual",
+                              "method": "POST",
+                              "url": "${$context.outputs.callback_url.content + \"/api/wire-recall\"}",
+                              "body": "${{ \"caseId\": $workflow.input.caseId, \"transactionId\": $workflow.input.transactionId }}"
+                            }
+                          },
+                          "metadata": {
+                            "activityType": "Connector",
+                            "displayName": "HTTP Request - Initiate wire recall",
+                            "fullName": "Connector"
+                          }
+                        }
+                      }
+                    ],
+                    "then": "exit"
+                  }
+                },
+                {
+                  "If_Recall_Required#NoRecall": {
+                    "do": [],
+                    "then": "exit"
+                  }
+                },
+                {
+                  "Response_Success": {
+                    "response": "${{ \"wireRecallInitiated\": $workflow.input.resolutionAction === \"recall_initiated\" }}",
+                    "markJobAsFailed": false,
+                    "then": "end",
+                    "metadata": {
+                      "activityType": "Response",
+                      "displayName": "Response - Resolution Complete",
+                      "fullName": "Response"
+                    }
+                  }
+                }
+              ],
+              "catch": {
+                "as": "error",
+                "do": [
+                  {
+                    "Response_Failure": {
+                      "response": "${{ \"wireRecallInitiated\": false }}",
+                      "markJobAsFailed": false,
+                      "then": "end",
+                      "metadata": {
+                        "activityType": "Response",
+                        "displayName": "Response - Resolution Failed",
+                        "fullName": "Response"
+                      }
+                    }
+                  }
+                ]
+              },
+              "metadata": {
+                "activityType": "TryCatch",
+                "displayName": "Try Catch",
+                "fullName": "TryCatch"
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "activityType": "Sequence",
+          "displayName": "Sequence",
+          "fullName": "Sequence"
+        }
+      }
+    }
+  ],
+  "evaluate": {
+    "mode": "strict",
+    "language": "javascript"
+  }
+}

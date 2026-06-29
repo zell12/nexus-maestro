@@ -1,0 +1,23 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Workflow_ResolutionCallback",
+    "kind": "package",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "fd1ce016-ebb4-441a-a338-dc15aaf01a36",
+    "isOverridable": true,
+    "dependencies": [],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "Workflow_ResolutionCallback"
+    },
+    "locks": [],
+    "key": "399738d1-9edd-46df-91ac-38df3fd803ac",
+    "files": []
+  }
+}

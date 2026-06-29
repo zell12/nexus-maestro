@@ -1,0 +1,38 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "NEXUSReviewApp",
+    "kind": "app",
+    "type": "codedAction",
+    "apiVersion": "apps.uipath.com/v1",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "NEXUSReviewApp.AppV2.NEXUSReviewApp",
+        "kind": "Package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "name": "NEXUSReviewApp",
+      "description": "Created by UiPath",
+      "routingName": "action-9d73cfea6ade44859038b926c98",
+      "version": "2.0.1",
+      "package": {
+        "name": "NEXUSReviewApp.AppV2.NEXUSReviewApp",
+        "key": "NEXUSReviewApp.AppV2.NEXUSReviewApp:2.0.1"
+      },
+      "externalClientId": "",
+      "appSystemName": "ID488c35deb6f24c3eab30efaf9e19039f",
+      "actionSchema": "{\"key\":\"8fb74982-454e-4435-8cb7-b2532759f2e3\",\"version\":1,\"description\":\"Action Schema\",\"id\":\"ID1f2e19886def47629f3ffaec2596b309\",\"name\":\"ActionSchema\",\"inOuts\":[],\"inputs\":[{\"name\":\"caseId\",\"key\":\"548dafdf-2d02-4a39-b36d-b49ca80b5a63\",\"required\":true,\"description\":\"Wire fraud dispute case identifier\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]},{\"name\":\"transactionAmount\",\"key\":\"1d1cb0eb-256d-4326-b85b-9c053acde7a3\",\"required\":false,\"description\":\"Disputed wire amount (USD)\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.Decimal\",\"properties\":[]},{\"name\":\"fraudScore\",\"key\":\"1c9fd8e8-2e2b-4a8e-ae0e-0d9aed47d16a\",\"required\":false,\"description\":\"AI fraud risk score, 0-100\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.Int64\",\"properties\":[]},{\"name\":\"evidenceSummary\",\"key\":\"e109e883-e557-419d-8c72-f6773e302e94\",\"required\":false,\"description\":\"Fraud intelligence evidence summary\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]},{\"name\":\"resolutionAction\",\"key\":\"519ef44c-1af5-4169-8989-23f615ac3113\",\"required\":false,\"description\":\"AI-recommended resolution action\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]},{\"name\":\"caseNarrative\",\"key\":\"0dd81460-949d-4047-813e-38340a6db35a\",\"required\":false,\"description\":\"Formal case narrative for the audit record\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]}],\"outputs\":[{\"name\":\"analystDecision\",\"key\":\"1d89c6f9-a541-4f45-a1b5-7fc870b10238\",\"required\":false,\"description\":\"Analyst decision: recall_initiated or no_action\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]},{\"name\":\"analystNotes\",\"key\":\"60bf855c-578c-4137-b693-a9182241f080\",\"required\":false,\"description\":\"Optional analyst review notes\",\"version\":0,\"typeNamespace\":\"system\",\"isList\":false,\"collectionDataType\":null,\"type\":\"System.String\",\"properties\":[]}],\"outcomes\":[{\"name\":\"ConfirmRecall\",\"key\":\"f1b3fcca-9047-44ba-92b9-c2a6a70734b6\",\"required\":false,\"type\":\"System.String\",\"typeNamespace\":\"system\",\"isList\":false,\"properties\":[],\"version\":0},{\"name\":\"OverrideNoAction\",\"key\":\"60499cbc-36e9-4ea8-84e1-ec7996ed8160\",\"required\":false,\"type\":\"System.String\",\"typeNamespace\":\"system\",\"isList\":false,\"properties\":[],\"version\":0}],\"__tenantId\":\"80af6012-ee6e-4c90-8b8e-bacac76f3560\",\"__tenantSubId\":\"default\",\"__tenantEnvironmentId\":\"production\",\"__isDeleted\":false,\"dateLastModified\":\"2026-06-18T00:01:36.990Z\"}"
+    },
+    "locks": [],
+    "key": "66d93806-363b-4bea-89ee-4ca7a946999a",
+    "files": []
+  }
+}

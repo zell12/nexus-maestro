@@ -1,0 +1,27 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "content/Workflow.json",
+      "uniqueId": "88cb8601-1385-436f-985a-2320a3583487",
+      "type": "Api",
+      "input": {
+        "type": "object",
+        "properties": {
+          "caseId": { "type": "string" }
+        },
+        "title": "Inputs"
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "vendorInvoiceVerified": { "type": "boolean" },
+          "vendorBankingChanged": { "type": "boolean" },
+          "shipmentDispatched": { "type": "boolean" }
+        },
+        "title": "Outputs"
+      }
+    }
+  ]
+}

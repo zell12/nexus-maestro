@@ -1,0 +1,36 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Agent_WireFraudResolutionSynthesis",
+    "kind": "process",
+    "type": "agent",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "86623843-9c67-42ce-bdcd-53c287c54d2d",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "Agent_WireFraudResolutionSynthesis",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "type": "Agent",
+      "name": "Agent_WireFraudResolutionSynthesis",
+      "inputArguments": "{}",
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180
+    },
+    "locks": [],
+    "key": "86623843-9c67-42ce-bdcd-53c287c54d2d",
+    "files": []
+  }
+}
