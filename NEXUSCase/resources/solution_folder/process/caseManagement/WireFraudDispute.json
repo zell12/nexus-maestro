@@ -6,10 +6,11 @@
     "type": "caseManagement",
     "apiVersion": "orchestrator.uipath.com/v1",
     "projectKey": "7fc65306-0577-4283-b73e-7fde200ca3b2",
+    "isOverridable": true,
     "dependencies": [
       {
-        "kind": "package",
-        "name": "WireFraudDispute"
+        "name": "WireFraudDispute",
+        "kind": "package"
       }
     ],
     "runtimeDependencies": [],

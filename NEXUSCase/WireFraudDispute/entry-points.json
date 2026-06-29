@@ -3,18 +3,9 @@
   "$id": "entry-points.json",
   "entryPoints": [
     {
-      "filePath": "/content/caseplan.json.bpmn#trigger_1",
-      "uniqueId": "443a8ee3-fb12-46a5-9ae7-f71628b777f6",
-      "type": "CaseManagement",
-      "input": {
-        "type": "object",
-        "properties": {}
-      },
-      "output": {
-        "type": "object",
-        "properties": {}
-      },
-      "displayName": "ARIA Wire Fraud Webhook"
+      "filePath": "caseplan.json",
+      "uniqueId": "7fc65306-0577-4283-b73e-7fde200ca3b2",
+      "type": "CaseManagement"
     }
   ]
 }
